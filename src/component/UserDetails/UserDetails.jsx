@@ -21,6 +21,10 @@ function UserDetails() {
         }
 
     }
+    function handleLogout(){
+        localStorage.removeItem('token')
+        navigate('/')
+    }
     return (
         <>
             <h1 id="userdetails-txt">User Details:</h1>
@@ -57,7 +61,7 @@ function UserDetails() {
                     </div>
                 </div>
                 <div className="userDetails-btn-cnt">
-                    <button id="userdetails-btn" onClick={()=>navigate('/')}>Logout</button>
+                    <button id="userdetails-btn" onClick={()=>handleLogout()}>Logout</button>
                 </div>
             </div>
         </>
