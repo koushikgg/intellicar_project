@@ -37,8 +37,8 @@ function Login() {
                     <input type="password" id="login-inp-txt" placeholder="********" onChange={(e)=>setPassword(e.target.value)}/>
                 </div>
                 <div className="login-btn-cnt">
-                    <button id="login-btn1" onClick={()=>handleLogin()}>Login</button>
                     <button id="login-btn2" onClick={()=>navigate("/signup")}>SignUp</button>
+                    <button id="login-btn1" onClick={()=>handleLogin()}>Login</button>
                 </div>
             </div>
         </>
