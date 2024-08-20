@@ -8,16 +8,22 @@ function UserDetails() {
         getUserDetails()
     }, [])
     async function getUserDetails() {
-        const res = await getUserInfoApi();
-        console.log(res.data.data);
-        setUser(res.data.data)
+        try {
+            const res = await getUserInfoApi();
+            console.log(res.data.data);
+            setUser(res.data.data)
+            
+        } catch (error) {
+            console.log(error);
+            alert(error.response.data.error)
+        }
         
     }
     return (
         <>
             <h1 id="userdetails-txt">User Details:</h1>
             <div className="userDetails-main-cnt">
-                <div className="userDetails-profile-cnt">
+                <div class Name="userDetails-profile-cnt">
                     <div className="userDetails-profile-inner-cnt">
                         <p>P</p>
                     </div>

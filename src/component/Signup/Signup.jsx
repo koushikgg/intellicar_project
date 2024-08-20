@@ -31,7 +31,7 @@ function Signup() {
             
         } catch (error) {
             console.log(error);
-            
+            alert(error.response.data.error)
         }
         
     }
