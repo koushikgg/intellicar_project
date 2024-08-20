@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import "./UserDetails.scss"
 import { getUserInfoApi } from "../../service/userService";
+import { useNavigate } from "react-router-dom";
 
 function UserDetails() {
     const [user, setUser] = useState({})
+    const navigate = useNavigate()
     useEffect(() => {
         getUserDetails()
     }, [])
@@ -55,7 +57,7 @@ function UserDetails() {
                     </div>
                 </div>
                 <div className="userDetails-btn-cnt">
-                    <button id="userdetails-btn"> Save Changes</button>
+                    <button id="userdetails-btn" onClick={()=>navigate('/')}>Logout</button>
                 </div>
             </div>
         </>
