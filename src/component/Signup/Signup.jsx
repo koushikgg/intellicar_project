@@ -16,17 +16,23 @@ function Signup() {
     
 
     async function handleSignUp(){
-        const data = {
-            userName:userName,
-            email:email,
-            age:age,
-            gender:gender,
-            number: number,
-            password:password
+        try {
+            const data = {
+                username:userName,
+                email:email,
+                age:age,
+                gender:gender,
+                mobile: number,
+                password:password
+            }
+            const res = await signupApi(data)
+            console.log(res.data.message);
+            setMessage(res.data.message)
+            
+        } catch (error) {
+            console.log(error);
+            
         }
-        const res = await signupApi(data)
-        console.log(res.data.message);
-        setMessage(res.data.message)
         
     }
     return (
@@ -81,7 +87,7 @@ function Signup() {
                     </div>
                 </div>
                 <div className="signup-btn-cnt">
-                    <button id="signup-btn1" onClick={handleSignUp()}>Sign Up</button>
+                    <button id="signup-btn1" onClick={()=>handleSignUp()}>Sign Up</button>
                     <button id="signup-btn2" onClick={()=>navigate("/")}>Login</button>
                 </div>
                 <div className="signup-msge-cnt">

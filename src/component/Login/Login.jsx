@@ -8,14 +8,20 @@ function Login() {
     const [password, setPassword] = useState("")
     const navigate= useNavigate()
     async function handleLogin(){
-        const data = {
-            email: email,
-            password:password
-        }
-        const res = await loginApi(data)
-        localStorage.setItem('token',res.data.token)
-        if (res.data.message=='User signin successfully'){
-            navigate('/userdetails')
+        try {
+            const data = {
+                email: email,
+                password:password
+            }
+            const res = await loginApi(data)
+            localStorage.setItem('token',res.data.token)
+            if (res.data.message=='User signin successfully'){
+                navigate('/userdetails')
+            }
+            
+        } catch (error) {
+            console.log(error);
+            
         }
     }
     return (
