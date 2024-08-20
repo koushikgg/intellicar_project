@@ -87,8 +87,8 @@ function Signup() {
                     </div>
                 </div>
                 <div className="signup-btn-cnt">
-                    <button id="signup-btn1" onClick={()=>handleSignUp()}>Sign Up</button>
                     <button id="signup-btn2" onClick={()=>navigate("/")}>Login</button>
+                    <button id="signup-btn1" onClick={()=>handleSignUp()}>Sign Up</button>
                 </div>
                 <div className="signup-msge-cnt">
                     <p style={{color:"green"}}>{message}</p>
