@@ -1,17 +1,22 @@
 import { useNavigate } from "react-router-dom"
 import "./Login.scss"
 import { useState } from "react"
+import { loginApi } from "../../service/userService"
 
 function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate= useNavigate()
-    function handleLogin(){
+    async function handleLogin(){
         const data = {
             email: email,
             password:password
         }
-        
+        const res = await loginApi(data)
+        localStorage.setItem('token',res.data.token)
+        if (res.data.message=='User signin successfully'){
+            navigate('/userdetails')
+        }
     }
     return (
         <>  

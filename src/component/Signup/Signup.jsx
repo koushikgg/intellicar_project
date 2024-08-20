@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import "./Signup.scss"
-import { useState } from "react"
+import { memo, useState } from "react"
+import { signupApi } from "../../service/userService"
 
 
 function Signup() {
@@ -10,9 +11,11 @@ function Signup() {
     const [gender, setGender] = useState("")
     const [number, setNumber] = useState("")
     const [password, setPassword] = useState("")
+    const [message, setMessage] = useState('')
     const navigate = useNavigate()
+    
 
-    function handleSignUp(){
+    async function handleSignUp(){
         const data = {
             userName:userName,
             email:email,
@@ -21,6 +24,9 @@ function Signup() {
             number: number,
             password:password
         }
+        const res = await signupApi(data)
+        console.log(res.data.message);
+        setMessage(res.data.message)
         
     }
     return (
@@ -48,19 +54,19 @@ function Signup() {
                         <span id="signup-name-txt">Age</span>
                         <select name="age" id="age" onChange={(e)=>setAge(e.target.value)}>
                             <option value=""></option>
-                            <option value="18" style={{height:'20px'}}>18</option>
-                            <option value="19" style={{height:'20px'}}>19</option>
-                            <option value="20" style={{height:'20px'}}>20</option>
-                            <option value="21" style={{height:'20px'}}>21</option>
-                            <option value="22" style={{height:'20px'}}>22</option>
-                            <option value="23" style={{height:'20px'}}>23</option>
-                            <option value="24" style={{height:'20px'}}>24</option>
-                            <option value="25" style={{height:'20px'}}>25</option>
-                            <option value="26" style={{height:'20px'}}>26</option>
-                            <option value="27" style={{height:'20px'}}>27</option>
-                            <option value="28" style={{height:'20px'}}>28</option>
-                            <option value="29" style={{height:'20px'}}>29</option>
-                            <option value="30" style={{height:'20px'}}>30</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
                         </select>
                     </div>
                 </div>
@@ -77,6 +83,9 @@ function Signup() {
                 <div className="signup-btn-cnt">
                     <button id="signup-btn1" onClick={handleSignUp()}>Sign Up</button>
                     <button id="signup-btn2" onClick={()=>navigate("/")}>Login</button>
+                </div>
+                <div className="signup-msge-cnt">
+                    <p style={{color:"green"}}>{message}</p>
                 </div>
             </div>
         </>
