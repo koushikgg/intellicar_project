@@ -1,0 +1,67 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+body{
+    background-color: rgba(20, 20, 20, 0.705);
+    display: flex;
+    justify-content: center;
+
+}
+
+.newGame-main-cnt{
+    margin-top: 240px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 300px;
+    width: 350px;
+    box-shadow: 10px 10px;
+    border-radius: 8px;
+}
+
+.newGame-header{
+    margin-top: 20px;
+    // font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 24px;
+    // color: rgb(147, 125, 41);
+}
+
+.newGame-input-cnt{
+    margin-top: 50px;
+    font-size: 17px;
+    gap: 6px;
+   
+    display: flex;
+    flex-direction: column;
+
+    div{
+        font-size: 18px;
+    }
+}
+
+.newGame-input{
+    width: 60%;
+    height: 24px;
+    border-radius: 8px;
+}
+
+.newGame-btn-cnt{
+    margin-top: 50px;
+}
+
+.newGame-btn{
+height: 30px;
+width: 110px;
+border-radius: 8px;
+background-color: rgba(226, 29, 62, 0.849);
+box-shadow: 4px 5px 4px rgba(226, 29, 62, 0.829);
+cursor: pointer;
+
+}
+
+.newGame-btn:hover{
+        background-color: rgba(128, 128, 128, 0.678);
+        box-shadow: 4px 5px 4px rgba(128, 128, 128, 0.836);
+}
