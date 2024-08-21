@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
 import UserDetails from "./component/UserDetails/UserDetails";
+import GameBoard from "./component/GameBoard/GameBoard";
 
 function RoutingModule(){
     const appRoutes = createBrowserRouter([
@@ -16,6 +17,10 @@ function RoutingModule(){
         {
             path:"/userdetails",
             element:<UserDetails/>
+        },
+        {
+            path:"/gameboard",
+            element:<GameBoard/>
         }
     ])
     return(

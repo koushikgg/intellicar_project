@@ -15,6 +15,7 @@ body {
 
     p {
         font-size: 30px;
+        font-weight: 700;
     }
 }
 
@@ -83,6 +84,7 @@ body {
         background-color: rgba(226, 29, 62, 0.849);
         border: none;
         border-radius: 10px;
+        color: white;
     }
 
     #login-btn1:hover {
@@ -106,8 +108,11 @@ body {
 #login-forget-pass-txt {
     font-weight: 700;
     position: relative;
-    left: 62%;
+    left:  62%;
+    transition: transform 0.3 ease;
+    cursor: pointer;
 }
+
 
 .login-pass-main-cnt {
     width: 400px;
@@ -128,9 +133,10 @@ body {
     justify-content: center;
     margin-top: 10px;
     font-size: 25px;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 20px;
 }
+
 
 .login-pass-res-txt-inp-main {
     width: 100%;
@@ -168,6 +174,7 @@ body {
         background-color: rgba(226, 29, 62, 0.849);
         border: none;
         border-radius: 10px;
+        color: white;
     }
 
     #login-pass-res-btn1:hover {

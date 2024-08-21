@@ -32,7 +32,7 @@ function Login() {
             {resetPassword ?
                 <div className="login-pass-main-cnt">
                     <div className="login-pass-res-txt-main">
-                        <span>USER PASSWORD RESET</span>
+                        <span id="login-pass-res-txt-">USER PASSWORD RESET</span>
                     </div>
                     <div className="login-pass-res-txt-inp-main">
                         <span>Enter your email address to send password</span><p></p>
