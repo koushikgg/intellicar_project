@@ -6,3 +6,5 @@ export async function getGamesApi(){
         Authorization:`Bearer ${localStorage.getItem('token')}`
     }})
 }
+
+

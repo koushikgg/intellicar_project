@@ -18,7 +18,7 @@ function Login() {
             localStorage.setItem('token', res.data.token)
             if (res.data.message == 'User signin successfully') {
                 setTimeout(()=>{
-                    navigate('/dashboard/gameboard')
+                    navigate('/dashboard')
                 },3000)
             }
 

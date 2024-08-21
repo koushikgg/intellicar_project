@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const navigate = useNavigate();
-    const [gamesList, setGamesList] = useState([]);
+    const [gamesList, setGamesList] = useState([])
+
 
     useEffect(() => {
         async function fetchGames() {
@@ -21,6 +22,13 @@ export default function Header() {
         fetchGames();
     }, []); 
 
+    async function getBoardDetails(index){
+        const res = await getGamesApi();
+        localStorage.setItem("boardData",JSON.stringify(res.data.data))
+        localStorage.setItem('boardName',index)
+        navigate('/dashboard/gameboard')
+    }
+
     function handleLogout() {
         localStorage.removeItem('token');
         navigate('/');
@@ -28,15 +36,15 @@ export default function Header() {
 
     return (
         <div className="header-container">
-            <div className="header-btn1" onClick={() => navigate("/dashboard/newgame")}>
-                Newgame
+            <div className="header-btn1" onClick={() => navigate("/dashboard")}>
+                Home
             </div>
 
             <div className="dropdown">
                 <button className="dropdown-btn">Joingame</button>
                 <div className="dropdown-content">
                     {gamesList.map((game, index) => (
-                        <span key={index}>{game}</span>
+                        <span onClick={()=>getBoardDetails(game)} key={index}>{game}</span>
                     ))}
                 </div>
             </div>
