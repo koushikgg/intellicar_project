@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './GameBoard.scss';
-import { json } from 'react-router-dom';
 
 function GameBoard() {
     const [bgColor, setBgColor] = useState(null)

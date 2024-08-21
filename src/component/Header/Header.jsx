@@ -1,12 +1,13 @@
 import './Header.css'
-export default function () {
-
+import { useNavigate } from 'react-router-dom'
+export default function Header() {
+    const navigate= useNavigate()
     return (
         <>
 
             <div className="header-container">
 
-                <div className='header-btn1'>Newgame</div>
+                <div className='header-btn1' onClick={()=>navigate("/dashboard/newgame")}>Newgame</div>
 
 
                 <div class="dropdown">
