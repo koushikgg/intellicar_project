@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './GameBoard.scss';
+import { updateMoveApi } from '../../service/GameServices';
 
 function GameBoard() {
     const [bgColor, setBgColor] = useState(null)
     const [addCellValue, setAddCellValue] = useState(null)
+    const [row, setRow] = useState(null)
+    const [coloum, setColoum] = useState(null)
     const [cellValues, setCellValues] = useState(() => {
         const cellsData = JSON.parse(localStorage.getItem('boardData')) || [];
         return cellsData;
@@ -19,9 +22,11 @@ function GameBoard() {
         localStorage.setItem('boardData', JSON.stringify(cellValues));
     }, [cellValues]);
 
-    function backgroundColorChange(i) {
+    function backgroundColorChange(i, row, coloum) {
         setBgColor(i)
         setAddCellValue(i)
+        setRow(row)
+        setColoum(coloum)
     }
 
     const number = []
@@ -33,22 +38,31 @@ function GameBoard() {
         )
     }
 
-    function addTheValue(i) {
+    async function addTheValue(i) {
         if (addCellValue) {
-            const updatedCellValues = [...cellValues, { key: addCellValue, value: i }];
-            setCellValues(updatedCellValues);
+            try {
+                cellValues[boardName][row][coloum] = i
+                const updatedCellValues = cellValues
+                setCellValues(updatedCellValues);
+                const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i })
+                console.log(res);
+
+            } catch (error) {
+                console.log(error);
+
+            }
+
         }
     }
 
     for (let i = 0; i <= 90; i++) {
-        if (i>0){
+        if (i > 0) {
             if (`${i}`.includes(9)) continue;
         }
-        console.log(i);
-        
+
         let row = null
         let col = null
-        let assignValue =null;
+        let assignValue = null;
         let className = 'gameboard-cell-cnt';
         if (cellValues) {
             if (`${i}`.length < 2) {
@@ -56,9 +70,9 @@ function GameBoard() {
                 col = i
                 assignValue = cellValues[boardName][row][col]
                 console.log(assignValue);
-            }else{
-                row=parseInt(`${i}`[0])
-                col=parseInt(`${i}`[1])
+            } else {
+                row = parseInt(`${i}`[0])
+                col = parseInt(`${i}`[1])
                 assignValue = cellValues[boardName][row][col]
             }
         }
@@ -80,7 +94,7 @@ function GameBoard() {
         }
 
         cells.push(
-            <div key={i} className={className} onClick={() => backgroundColorChange(i)} >
+            <div key={i} className={className} onClick={() => backgroundColorChange(i, row, col)} >
                 {assignValue === 0 ? '' : assignValue}
             </div>
         );
