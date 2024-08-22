@@ -2,10 +2,17 @@ import { useEffect, useState } from 'react';
 import { getBoardApi, getGamesApi } from '../../service/GameServices';
 import './Header.css';
 import { useNavigate } from 'react-router-dom';
+import { getUserInfoApi } from '../../service/userService';
 
 export default function Header() {
     const navigate = useNavigate();
     const [gamesList, setGamesList] = useState([])
+    const [user, setUser] = useState({})
+
+
+    useEffect(() => {
+        getUserDetails()
+    }, [])
 
 
     useEffect(() => {
@@ -43,6 +50,19 @@ export default function Header() {
         navigate('/');
     }
 
+
+    async function getUserDetails() {
+        try {
+            const res = await getUserInfoApi();
+            console.log(res.data.data);
+            setUser(res.data.data)
+
+        } catch (error) {
+            console.log(error);
+            alert(error.response.data.error)
+        }
+
+    }
     return (
         <div className="header-container">
             <div className="header-btn1" onClick={() => navigate("/dashboard")}>
@@ -64,10 +84,10 @@ export default function Header() {
 
             <div className="dropdown2">
                 <button className="header-btn3">
-                    <p>P</p>
+                    <p>{(user?.username)?user?.username[0]:'P'}</p>
                 </button>
                 <div className="dropdown-content2">
-                    <span>User: P</span>
+                    <span>User: {(user?.username)?user?.username:'User Name'}</span>
                     <span onClick={handleLogout}>Logout</span>
                 </div>
             </div>

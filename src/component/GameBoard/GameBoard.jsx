@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './GameBoard.scss';
 import { getBoardApi, undoApi, updateMoveApi } from '../../service/GameServices';
+import { useNavigate } from 'react-router-dom';
 
 function GameBoard() {
     const [bgColor, setBgColor] = useState(null)
     const [addCellValue, setAddCellValue] = useState(null)
     const [row, setRow] = useState(null)
     const [coloum, setColoum] = useState(null)
+    const navigate = useNavigate()
     const [undoCount, setUndoCount] = useState(0)
     const [cellValues, setCellValues] = useState(() => {
         const cellsData = JSON.parse(localStorage.getItem('boardData')) || [];
@@ -16,7 +18,7 @@ function GameBoard() {
         const boardData = (localStorage.getItem('boardName')) || '';
         return boardData;
     })
-    const [wrongMoves, setWrongMoves] = useState([])
+    const [wrongMoves, setWrongMoves] = useState(false)
     const cells = [];
 
 
@@ -30,6 +32,14 @@ function GameBoard() {
         setRow(row)
         setColoum(coloum)
     }
+    // setInterval(()=>{
+    //     getDataLoop()
+    // },2000)
+
+    // async function getDataLoop() {
+    //     const res = await getBoardApi(boardName)
+    //     setCellValues(res.data.data.board)
+    // }
 
     async function handleUndo() {
         try {
@@ -43,7 +53,7 @@ function GameBoard() {
 
         } catch (error) {
             console.log(error);
-            
+
         }
     }
 
@@ -71,12 +81,13 @@ function GameBoard() {
             } catch (error) {
                 console.log(error.response.data.error);
                 if (error.response.data.error === 'Invalid move according to Sudoku rules') {
-                    const updatedCellValues = cellValues.map(row => [...row]);
-                    updatedCellValues[row][coloum] = i;
-                    setCellValues(updatedCellValues);
-                    const updatedWrongMoves = wrongMoves.map(value => value)
-                    setWrongMoves([...updatedWrongMoves, row * 10 + coloum])
-                    console.log(row * 10 + coloum);
+                    // const updatedCellValues = cellValues.map(row => [...row]);
+                    // updatedCellValues[row][coloum] = i;
+                    // setCellValues(updatedCellValues);
+                    // const updatedWrongMoves = wrongMoves.map(value => value)
+                    // setWrongMoves([...updatedWrongMoves, row * 10 + coloum])
+                    // console.log(row * 10 + coloum);
+                    setWrongMoves(true)
                 }
             }
         }
@@ -113,11 +124,11 @@ function GameBoard() {
         if (i === bgColor) {
             className += ' backgroundColorChange';
         }
-        const findWrongOne = wrongMoves.find(move => move == i)
+        // const findWrongOne = wrongMoves.find(move => move == i)
 
-        if (findWrongOne) {
-            className += ' cell-txt-color'
-        }
+        // if (findWrongOne) {
+        //     className += ' cell-txt-color'
+        // }
 
         if (assignValue) {
             className += ' valuebackgroundColorChange';
@@ -129,20 +140,52 @@ function GameBoard() {
             </div>
         );
     }
+
+   
+
+    const handleNavigate=()=>{
+        navigate('/')
+        navigate("/dashboard/newgame")
+        
+    }
+
+    const handleClose=()=>{
+        setWrongMoves(false)
+        setBgColor(null)
+    }
+
     return (
-        <center>
-            <div className="gameboard-main-cnt">
-                <div className="gameboard-table-main-cnt">
-                    {cells}
+        <>
+            {wrongMoves ?
+                <div className="gameOver-main-cnt">
+                    <div className="gameOver-inner-main-cnt">
+                        <div className="gameOver-header">
+                            Game Alert
+                        </div>
+                        <div className="gameOver-input-cnt">
+                            <div className='gameOver-input-desc'>You have made Wrong Move</div>
+                        </div>
+
+                        <div className='gameOver-header'><button className='gameOver-header-btn'onClick={()=>handleClose() } >Close</button></div>
+
+                    </div>
+
+                </div>:''
+            }
+            <center>
+                <div className="gameboard-main-cnt">
+                    <div className="gameboard-table-main-cnt">
+                        {cells}
+                    </div>
+                    <div className='gameboard-number-inp-cnt'>
+                        {number}
+                    </div>
+                    <div className='gameboard-number-inp-btn'>
+                        <button onClick={() => handleUndo()}>Undo</button>
+                    </div>
                 </div>
-                <div className='gameboard-number-inp-cnt'>
-                    {number}
-                </div>
-                <div className='gameboard-number-inp-btn'>
-                    <button onClick={() => handleUndo()}>Undo</button>
-                </div>
-            </div>
-        </center>
+            </center>
+        </>
     );
 }
 

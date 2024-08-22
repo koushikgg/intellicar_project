@@ -6,6 +6,7 @@ import GameBoard from "./component/GameBoard/GameBoard";
 import Header from "./component/Header/Header";
 import DashBoard from "./component/DashBoard/DashBoard";
 import NewGame from "./component/NewGame/NewGame";
+import GameOver from "./component/GameOver/GameOver";
 
 function RoutingModule() {
     const appRoutes = createBrowserRouter([
@@ -23,7 +24,8 @@ function RoutingModule() {
             children: [
                 {
                     path: "gameboard",
-                    element: <GameBoard />
+                    element: <GameBoard />,
+                    
                 }, {
                     path: "newgame",
                     element: <NewGame />
@@ -34,6 +36,10 @@ function RoutingModule() {
             path: "/userdetails",
             element: <UserDetails />
         },
+        {
+            path: "gameover",
+            element: <GameOver />
+        }
 
     ])
     return (
