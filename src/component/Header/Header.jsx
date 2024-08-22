@@ -23,16 +23,13 @@ export default function Header() {
     }, []);
 
     async function getBoardDetails(name) {
-        try {
-            // console.log({ boardId: name });
-            
+        try {            
             const res = await getBoardApi(name );
             console.log(res.data.data.board);
 
             localStorage.setItem("boardData", JSON.stringify(res.data.data.board))
             localStorage.setItem('boardName', name)
             navigate('/dashboard/gameboard')
-
 
         } catch (error) {
             console.log(error);
@@ -52,7 +49,7 @@ export default function Header() {
             <div className="header-btn1" onClick={() => navigate("/dashboard")}>
                 Home
             </div>
-            <div className="header-btn2" >
+            <div className="header-btn2" onClick={() => navigate("/dashboard/newgame")}>
                 Newgame
             </div>
 
