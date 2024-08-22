@@ -3,6 +3,10 @@
     padding: 0px;
 }
 
+center{
+    position: relative;
+}
+
 .gameboard-main-cnt {
     width: 1000px;
     height: 820px;
@@ -97,4 +101,13 @@
 
 .cell-txt-color{
     color: red;
+}
+
+.gameboard-history-display-main-cnt{
+    position: absolute;
+    width: 290px;
+    height: 88%;
+    // background-color: white;
+    top: 5px;
+    right: 0px;
 }

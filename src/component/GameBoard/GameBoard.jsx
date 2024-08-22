@@ -32,20 +32,19 @@ function GameBoard() {
         setRow(row)
         setColoum(coloum)
     }
-    // setInterval(()=>{
-    //     getDataLoop()
-    // },2000)
-
-    // async function getDataLoop() {
-    //     const res = await getBoardApi(boardName)
-    //     setCellValues(res.data.data.board)
-    // }
 
     async function handleUndo() {
         try {
+            let i=1
+            // while(i<5){
+            //     console.log('undo');
+            //     i++
+            // }
             await undoApi({ boardId: boardName })
             const res = await getBoardApi(boardName)
             setCellValues(res.data.data.board)
+            console.log(res.data.data.board);
+            
             // (localStorage.setItem('boardData',JSON.stringify(res.data.data.board)))
             const count = undoCount + 1
             setUndoCount(count)
@@ -67,7 +66,7 @@ function GameBoard() {
     }
 
     async function addTheValue(i) {
-        if (addCellValue !== null && bgColor!==null) {
+        if (addCellValue !== null && bgColor !== null) {
             try {
                 if (cellValues[row][coloum] === 0) {
                     const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i });
@@ -81,12 +80,6 @@ function GameBoard() {
             } catch (error) {
                 console.log(error.response.data.error);
                 if (error.response.data.error === 'Invalid move according to Sudoku rules') {
-                    // const updatedCellValues = cellValues.map(row => [...row]);
-                    // updatedCellValues[row][coloum] = i;
-                    // setCellValues(updatedCellValues);
-                    // const updatedWrongMoves = wrongMoves.map(value => value)
-                    // setWrongMoves([...updatedWrongMoves, row * 10 + coloum])
-                    // console.log(row * 10 + coloum);
                     setWrongMoves(true)
                 }
             }
@@ -141,15 +134,15 @@ function GameBoard() {
         );
     }
 
-   
 
-    const handleNavigate=()=>{
+
+    const handleNavigate = () => {
         navigate('/')
         navigate("/dashboard/newgame")
-        
+
     }
 
-    const handleClose=()=>{
+    const handleClose = () => {
         setWrongMoves(false)
         setBgColor(null)
     }
@@ -166,11 +159,11 @@ function GameBoard() {
                             <div className='gameOver-input-desc'>You have made Wrong Move</div>
                         </div>
 
-                        <div className='gameOver-header'><button className='gameOver-header-btn'onClick={()=>handleClose() } >Close</button></div>
+                        <div className='gameOver-header'><button className='gameOver-header-btn' onClick={() => handleClose()} >Close</button></div>
 
                     </div>
 
-                </div>:''
+                </div> : ''
             }
             <center>
                 <div className="gameboard-main-cnt">
@@ -183,6 +176,9 @@ function GameBoard() {
                     <div className='gameboard-number-inp-btn'>
                         <button onClick={() => handleUndo()}>Undo</button>
                     </div>
+                </div>
+                <div className='gameboard-history-display-main-cnt'>
+
                 </div>
             </center>
         </>
