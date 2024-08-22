@@ -38,6 +38,7 @@ export default function Header() {
     }
 
     function handleLogout() {
+        console.log('logout');
         localStorage.removeItem('token');
         localStorage.removeItem("boardData")
         localStorage.removeItem('boardName')

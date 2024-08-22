@@ -122,9 +122,9 @@ dropdown {
     display: block;
 }
 
-.dropdown:active .dropdown-content {
+/* .dropdown:active .dropdown-content {
     display: none;
-}
+} */
 
 
 
@@ -194,9 +194,6 @@ dropdown {
 
 .dropdown2:hover .dropdown-content2 {
     display: block;
-}
-.dropdown2:active .dropdown-content2 {
-    display: none;
 }
 
 
