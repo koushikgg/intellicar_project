@@ -39,6 +39,10 @@ export default function Header() {
             <div className="header-btn1" onClick={() => navigate("/dashboard")}>
                 Home
             </div>
+            <div className="header-btn2" >
+                Newgame
+            </div>
+
 
             <div className="dropdown">
                 <button className="dropdown-btn">Joingame</button>
