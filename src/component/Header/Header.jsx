@@ -12,8 +12,8 @@ export default function Header() {
         async function fetchGames() {
             try {
                 const res = await getGamesApi();
-                const data = Object.keys(res?.data?.data || {});
-                setGamesList(data);
+                // console.log(res?.data?.data);
+                setGamesList(res?.data?.data);
             } catch (error) {
                 console.error("Error fetching games:", error);
             }
