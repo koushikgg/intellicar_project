@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getGamesApi } from '../../service/GameServices';
+import { getBoardApi, getGamesApi } from '../../service/GameServices';
 import './Header.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ export default function Header() {
         async function fetchGames() {
             try {
                 const res = await getGamesApi();
-                // console.log(res?.data?.data);
+                console.log(res);
                 setGamesList(res?.data?.data);
             } catch (error) {
                 console.error("Error fetching games:", error);
@@ -20,17 +20,30 @@ export default function Header() {
         }
 
         fetchGames();
-    }, []); 
+    }, []);
 
-    async function getBoardDetails(index){
-        const res = await getGamesApi();
-        localStorage.setItem("boardData",JSON.stringify(res.data.data))
-        localStorage.setItem('boardName',index)
-        navigate('/dashboard/gameboard')
+    async function getBoardDetails(name) {
+        try {
+            // console.log({ boardId: name });
+            
+            const res = await getBoardApi(name );
+            console.log(res.data.data.board);
+
+            localStorage.setItem("boardData", JSON.stringify(res.data.data.board))
+            localStorage.setItem('boardName', name)
+            navigate('/dashboard/gameboard')
+
+
+        } catch (error) {
+            console.log(error);
+
+        }
     }
 
     function handleLogout() {
         localStorage.removeItem('token');
+        localStorage.removeItem("boardData")
+        localStorage.removeItem('boardName')
         navigate('/');
     }
 
@@ -48,7 +61,7 @@ export default function Header() {
                 <button className="dropdown-btn">Joingame</button>
                 <div className="dropdown-content">
                     {gamesList.map((game, index) => (
-                        <span onClick={()=>getBoardDetails(game)} key={index}>{game}</span>
+                        <span onClick={() => getBoardDetails(game)} key={index}>{game}</span>
                     ))}
                 </div>
             </div>

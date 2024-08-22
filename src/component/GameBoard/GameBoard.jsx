@@ -41,7 +41,7 @@ function GameBoard() {
     async function addTheValue(i) {
         if (addCellValue) {
             try {
-                cellValues[boardName][row][coloum] = i
+                cellValues[row][coloum] = i
                 const updatedCellValues = cellValues
                 setCellValues(updatedCellValues);
                 const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i })
@@ -68,12 +68,12 @@ function GameBoard() {
             if (`${i}`.length < 2) {
                 row = 0;
                 col = i
-                assignValue = cellValues[boardName][row][col]
+                assignValue = cellValues[row][col]
                 console.log(assignValue);
             } else {
                 row = parseInt(`${i}`[0])
                 col = parseInt(`${i}`[1])
-                assignValue = cellValues[boardName][row][col]
+                assignValue = cellValues[row][col]
             }
         }
 
