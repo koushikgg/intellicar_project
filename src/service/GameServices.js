@@ -27,3 +27,9 @@ export async function updateMoveApi(data){
     }})
 }
 
+export async function undoApi(data){
+    return await axios.post('http://192.168.74.11:3000/api/v1/games/undo',data,{ headers:{
+        Authorization:`Bearer ${localStorage.getItem('token')}`
+    }})
+}
+
