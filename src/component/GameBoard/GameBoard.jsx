@@ -15,12 +15,13 @@ function GameBoard() {
         const boardData = (localStorage.getItem('boardName')) || '';
         return boardData;
     })
+    const [wrongMoves, setWrongMoves] = useState([])
     const cells = [];
 
 
     useEffect(() => {
         localStorage.setItem('boardData', JSON.stringify(cellValues));
-    }, [cellValues]);
+    }, [cellValues], [wrongMoves]);
 
     function backgroundColorChange(i, row, coloum) {
         setBgColor(i)
@@ -42,16 +43,24 @@ function GameBoard() {
         if (addCellValue !== null) {
             try {
                 if (cellValues[row][coloum] === 0) {
+                    const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i });
+                    console.log(res?.data?.message);
                     const updatedCellValues = cellValues.map(row => [...row]);
                     updatedCellValues[row][coloum] = i;
                     setCellValues(updatedCellValues);
-                    // console.log({ boardId: boardName, row: parseInt(row), coloum: parseInt(coloum), value: i });
-
-                    // const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i });
-                    // console.log(res);
+                    console.log({ boardId: boardName, row: parseInt(row), coloum: parseInt(coloum), value: i });
                 }
+
             } catch (error) {
-                console.log(error);
+                console.log(error.response.data.error);
+                if (error.response.data.error === 'Invalid move according to Sudoku rules') {
+                    const updatedCellValues = cellValues.map(row => [...row]);
+                    updatedCellValues[row][coloum] = i;
+                    setCellValues(updatedCellValues);
+                    const updatedWrongMoves= wrongMoves.map(value=>value)
+                    setWrongMoves([...updatedWrongMoves,row * 10 + coloum])
+                    console.log(row * 10 + coloum);
+                }
             }
         }
     }
@@ -87,8 +96,11 @@ function GameBoard() {
         if (i === bgColor) {
             className += ' backgroundColorChange';
         }
+        const findWrongOne = wrongMoves.find(move => move == i)
 
-
+        if (findWrongOne) {
+            className += ' cell-txt-color'
+        }
 
         if (assignValue) {
             className += ' valuebackgroundColorChange';
@@ -101,17 +113,19 @@ function GameBoard() {
         );
     }
     return (
-        <div className="gameboard-main-cnt">
-            <div className="gameboard-table-main-cnt">
-                {cells}
+        <center>
+            <div className="gameboard-main-cnt">
+                <div className="gameboard-table-main-cnt">
+                    {cells}
+                </div>
+                <div className='gameboard-number-inp-cnt'>
+                    {number}
+                </div>
+                <div className='gameboard-number-inp-btn'>
+                    <button>Undo</button>
+                </div>
             </div>
-            <div className='gameboard-number-inp-cnt'>
-                {number}
-            </div>
-            <div className='gameboard-number-inp-btn'>
-                <button>Undo</button>
-            </div>
-        </div>
+        </center>
     );
 }
 
