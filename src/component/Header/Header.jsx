@@ -35,6 +35,7 @@ export default function Header() {
             localStorage.setItem("boardData", JSON.stringify(res.data.data.board))
             localStorage.setItem('boardName', name)
             navigate('/dashboard/gameboard')
+            window.location.reload();
 
         } catch (error) {
             console.log(error);
