@@ -67,7 +67,7 @@ function GameBoard() {
     }
 
     async function addTheValue(i) {
-        if (addCellValue !== null) {
+        if (addCellValue !== null && bgColor!==null) {
             try {
                 if (cellValues[row][coloum] === 0) {
                     const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i });
