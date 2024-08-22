@@ -20,12 +20,19 @@ body {
 }
 
 
+.login-main{
+    height: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .login-main-cnt {
     background-color: white;
     width: 350px;
     height: 340px;
-    margin: auto;
-    margin-top: 25vh;
+    // margin: auto;
+    // margin-top: 25vh;
     display: flex;
     flex-direction: column;
     // border: 1px solid black;

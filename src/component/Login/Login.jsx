@@ -29,6 +29,7 @@ function Login() {
     }
     return (
         <>
+        <div className="login-main">
             {resetPassword ?
                 <div className="login-pass-main-cnt">
                     <div className="login-pass-res-txt-main">
@@ -62,6 +63,8 @@ function Login() {
                     </div>
                 </div>
             }
+  </div>
+
         </>
     )
 }
