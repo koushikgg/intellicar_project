@@ -10,11 +10,19 @@ input{
     padding-left: 10px;
 }
 
+.signup-main{
+  
+  height: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .signup-main-cnt {
     width: 450px;
     height: 490px;
-    margin: auto;
-    margin-top: 25vh;
+    // margin: auto;
+    // margin-top: 25vh;
     display: flex;
     flex-direction: column;
     // border: 1px solid black;
@@ -31,7 +39,6 @@ input{
     margin-bottom: 20px;
     p{
         font-size: 30px;
-        font-weight: 700;
     }
 }
 

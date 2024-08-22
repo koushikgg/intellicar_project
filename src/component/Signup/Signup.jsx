@@ -40,6 +40,9 @@ function Signup() {
     }
     return (
         <>
+
+        <div className="signup-main">
+        
             <div className="signup-main-cnt">
                 <div className="signup-txt-cnt"><p>USER SIGNUP</p></div>
                 <div className="signup-name-cnt">
@@ -97,6 +100,12 @@ function Signup() {
                     <p style={{color:"green"}}>{message}</p>
                 </div>
             </div>
+
+
+            </div>
+
+           
+           
         </>
     )
 }
