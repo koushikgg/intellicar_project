@@ -38,7 +38,7 @@
     border-bottom: solid 2px rgb(9, 255, 0);
 
 }.header-btn2 {
-
+   
     height: 20px;
     height: 50px;
     width: 140px;
@@ -122,6 +122,13 @@ dropdown {
     display: block;
 }
 
+.dropdown:active .dropdown-content {
+    display: none;
+}
+
+
+
+
 .dropdown:hover .dropdown-btn {
     background-color: rgba(226, 29, 62, 0.973);
     border-bottom: solid 2px rgb(9, 255, 0);
@@ -183,10 +190,14 @@ dropdown {
 }
 
 
+
+
 .dropdown2:hover .dropdown-content2 {
     display: block;
 }
-
+.dropdown2:active .dropdown-content2 {
+    display: none;
+}
 
 
 .header-btn3:hover {
