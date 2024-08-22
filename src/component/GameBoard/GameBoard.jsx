@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './GameBoard.scss';
-import { updateMoveApi } from '../../service/GameServices';
+import { getBoardApi, undoApi, updateMoveApi } from '../../service/GameServices';
 
 function GameBoard() {
     const [bgColor, setBgColor] = useState(null)
     const [addCellValue, setAddCellValue] = useState(null)
     const [row, setRow] = useState(null)
     const [coloum, setColoum] = useState(null)
+    const [undoCount, setUndoCount] = useState(0)
     const [cellValues, setCellValues] = useState(() => {
         const cellsData = JSON.parse(localStorage.getItem('boardData')) || [];
         return cellsData;
@@ -28,6 +29,22 @@ function GameBoard() {
         setAddCellValue(i)
         setRow(row)
         setColoum(coloum)
+    }
+
+    async function handleUndo() {
+        try {
+            await undoApi({ boardId: boardName })
+            const res = await getBoardApi(boardName)
+            setCellValues(res.data.data.board)
+            // (localStorage.setItem('boardData',JSON.stringify(res.data.data.board)))
+            const count = undoCount + 1
+            setUndoCount(count)
+            setBgColor(null)
+
+        } catch (error) {
+            console.log(error);
+            
+        }
     }
 
     const number = []
@@ -57,8 +74,8 @@ function GameBoard() {
                     const updatedCellValues = cellValues.map(row => [...row]);
                     updatedCellValues[row][coloum] = i;
                     setCellValues(updatedCellValues);
-                    const updatedWrongMoves= wrongMoves.map(value=>value)
-                    setWrongMoves([...updatedWrongMoves,row * 10 + coloum])
+                    const updatedWrongMoves = wrongMoves.map(value => value)
+                    setWrongMoves([...updatedWrongMoves, row * 10 + coloum])
                     console.log(row * 10 + coloum);
                 }
             }
@@ -122,7 +139,7 @@ function GameBoard() {
                     {number}
                 </div>
                 <div className='gameboard-number-inp-btn'>
-                    <button>Undo</button>
+                    <button onClick={() => handleUndo()}>Undo</button>
                 </div>
             </div>
         </center>
