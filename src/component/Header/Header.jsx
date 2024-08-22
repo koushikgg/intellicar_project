@@ -12,7 +12,6 @@ export default function Header() {
         async function fetchGames() {
             try {
                 const res = await getGamesApi();
-                console.log(res);
                 setGamesList(res?.data?.data);
             } catch (error) {
                 console.error("Error fetching games:", error);
@@ -25,7 +24,6 @@ export default function Header() {
     async function getBoardDetails(name) {
         try {            
             const res = await getBoardApi(name );
-            console.log(res.data.data.board);
 
             localStorage.setItem("boardData", JSON.stringify(res.data.data.board))
             localStorage.setItem('boardName', name)

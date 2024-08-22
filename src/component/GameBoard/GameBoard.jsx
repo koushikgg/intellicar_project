@@ -39,21 +39,23 @@ function GameBoard() {
     }
 
     async function addTheValue(i) {
-        if (addCellValue) {
+        if (addCellValue !== null) {
             try {
-                cellValues[row][coloum] = i
-                const updatedCellValues = cellValues
-                setCellValues(updatedCellValues);
-                const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i })
-                console.log(res);
+                if (cellValues[row][coloum] === 0) {
+                    const updatedCellValues = cellValues.map(row => [...row]);
+                    updatedCellValues[row][coloum] = i;
+                    setCellValues(updatedCellValues);
+                    // console.log({ boardId: boardName, row: parseInt(row), coloum: parseInt(coloum), value: i });
 
+                    // const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i });
+                    // console.log(res);
+                }
             } catch (error) {
                 console.log(error);
-
             }
-
         }
     }
+
 
     for (let i = 0; i <= 90; i++) {
         if (i > 0) {
@@ -69,7 +71,6 @@ function GameBoard() {
                 row = 0;
                 col = i
                 assignValue = cellValues[row][col]
-                console.log(assignValue);
             } else {
                 row = parseInt(`${i}`[0])
                 col = parseInt(`${i}`[1])
