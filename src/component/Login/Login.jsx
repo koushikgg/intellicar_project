@@ -15,6 +15,8 @@ function Login() {
                 password: password
             }
             const res = await loginApi(data)
+            console.log(res);
+            
             localStorage.setItem('token', res.data.token)
             if (res.data.message == 'User signin successfully') {
                 setTimeout(()=>{

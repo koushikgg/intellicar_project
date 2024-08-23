@@ -47,6 +47,8 @@ function GameBoard() {
         try {
             await undoApi({ boardId: localStorage.getItem('boardName') })
             const res = await getBoardApi(localStorage.getItem('boardName'))
+            console.log(res);
+            
             setCellValues(res.data.data.board)
             // (localStorage.setItem('boardData',JSON.stringify(res.data.data.board)))
             const count = undoCount + 1
@@ -74,8 +76,6 @@ function GameBoard() {
         if (addCellValue !== null && bgColor !== null) {
             try {
                 if (cellValues[row][coloum] === 0) {
-                    console.log({ boardId: localStorage.getItem('boardName'), row: row, coloum: coloum, value: i });
-
                     const res = await updateMoveApi({ boardId: localStorage.getItem('boardName'), row: row, coloum: coloum, value: i });
                     setBgColor(null)
                     const updatedCellValues = cellValues.map(row => [...row]);

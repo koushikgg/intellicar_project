@@ -17,7 +17,7 @@ export default function Header() {
     useEffect(() => {
         async function fetchGames() {
             try {
-                const res = await getGamesApi();
+                const res = await getGamesApi();                                
                 setGamesList(res?.data?.data || []);
             } catch (error) {
                 console.error("Error fetching games:", error);

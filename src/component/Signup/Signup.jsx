@@ -26,7 +26,7 @@ function Signup() {
                 password:password
             }
             const res = await signupApi(data)
-            console.log(res.data.message);
+            console.log(res);
             setMessage(res.data.message)
             if (res.data.message=='User created successfully'){
                 navigate('/')
