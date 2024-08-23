@@ -20,6 +20,7 @@ function GameBoard() {
     })
     const [wrongMoves, setWrongMoves] = useState(false)
     const cells = [];
+    let countMoves = 0
 
 
     useEffect(() => {
@@ -46,7 +47,7 @@ function GameBoard() {
         try {
             await undoApi({ boardId: localStorage.getItem('boardName') })
             const res = await getBoardApi(localStorage.getItem('boardName'))
-            setCellValues(res.data.data.board)            
+            setCellValues(res.data.data.board)
             // (localStorage.setItem('boardData',JSON.stringify(res.data.data.board)))
             const count = undoCount + 1
             setUndoCount(count)
@@ -67,14 +68,14 @@ function GameBoard() {
         )
     }
 
-    
+
 
     async function addTheValue(i) {
         if (addCellValue !== null && bgColor !== null) {
             try {
                 if (cellValues[row][coloum] === 0) {
                     console.log({ boardId: localStorage.getItem('boardName'), row: row, coloum: coloum, value: i });
-                    
+
                     const res = await updateMoveApi({ boardId: localStorage.getItem('boardName'), row: row, coloum: coloum, value: i });
                     setBgColor(null)
                     const updatedCellValues = cellValues.map(row => [...row]);
@@ -119,12 +120,14 @@ function GameBoard() {
         if ((`${i}`.endsWith('2')) || (`${i}`.endsWith('5'))) {
             className += ' cell-border-right';
         }
-        if (i === bgColor ) {
+        if (i === bgColor) {
             className += ' backgroundColorChange';
         }
 
-        if (assignValue) {
+        if (assignValue > 0) {
             className += ' valuebackgroundColorChange';
+            countMoves += 1
+
         }
 
         cells.push(
@@ -146,12 +149,7 @@ function GameBoard() {
         setWrongMoves(false)
         setBgColor(null)
     }
-
-    return (
-        <>
-            {wrongMoves ?
-                <div className="gameOver-main-cnt">
-                    <div className="gameOver-inner-main-cnt">
+<div className="gameOver-inner-main-cnt">
                         <div className="gameOver-header">
                             Game Alert
                         </div>
@@ -162,6 +160,35 @@ function GameBoard() {
                         <div className='gameOver-header'><button className='gameOver-header-btn' onClick={() => handleClose()} >Close</button></div>
 
                     </div>
+    return (
+        <>
+            {wrongMoves || countMoves === 81 ?
+                <div className="gameOver-main-cnt">
+                    {countMoves === 81 ?
+                        <div className="gamewon-inner-main-cnt">
+                            <div className="gameOver-header">
+                                Game Alert
+                            </div>
+                            <div className="gameOver-input-cnt">
+                                <div className='gameOver-input-desc'>Congratulations...!!!</div>
+                                <p>You Won</p>
+                            </div>
+
+                            <div className='gameOver-header'><button className='gameOver-header-btn  gamewon-header-btn' onClick={() => navigate('/dashboard')} >Close</button></div>
+
+                        </div> :
+                        <div className="gameOver-inner-main-cnt">
+                            <div className="gameOver-header">
+                                Game Alert
+                            </div>
+                            <div className="gameOver-input-cnt">
+                                <div className='gameOver-input-desc'>You have made Wrong Move</div>
+                            </div>
+
+                            <div className='gameOver-header'><button className='gameOver-header-btn' onClick={() => handleClose()} >Close</button></div>
+
+                        </div>
+                    }
 
                 </div> : ''
             }

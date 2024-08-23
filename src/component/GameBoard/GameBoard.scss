@@ -111,3 +111,17 @@ center{
     top: 5px;
     right: 0px;
 }
+
+.gamewon-header-btn{
+    margin-bottom: 30px;
+}
+
+.gamewon-inner-main-cnt {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 236px;
+    width: 350px;
+    box-shadow: 10px 10px;
+    border-radius: 8px;
+}
