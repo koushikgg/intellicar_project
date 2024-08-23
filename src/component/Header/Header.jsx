@@ -55,7 +55,7 @@ export default function Header() {
     }
 
     function handleLogout() {
-        localStorage.clear();
+        localStorage.removeItem('token')
         navigate('/');
     }
 
