@@ -33,7 +33,8 @@ export default function Header() {
         
         const fetchBoardDetails = async () => {
             try {
-                const res = await getBoardApi(localStorage.getItem('newBoard',));
+                const res = await getBoardApi(localStorage.getItem('newBoard'));
+                localStorage.setItem('boardMoves',JSON.stringify(res.data.data.moveBy))
                 localStorage.setItem("boardData", JSON.stringify(res.data.data.board));
                 localStorage.setItem('boardName', validname);
             } catch (error) {

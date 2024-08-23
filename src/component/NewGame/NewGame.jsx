@@ -7,6 +7,7 @@ function NewGame() {
     const [gameName,setGameName] = useState("")
     const navigate = useNavigate()
     async function handleCreate(){
+
         try {
             const res = await createNewGameApi({boardId:gameName,level:gameMode})
             localStorage.setItem("boardData", JSON.stringify(res.data.data.board))
@@ -16,7 +17,7 @@ function NewGame() {
             
         } catch (error) {
             console.log(error.response.data);
-            alert(error.response.data)
+            alert("Please Select Game Name and Mode")
             
         }
     }
@@ -29,7 +30,7 @@ function NewGame() {
                 </div>
                 <div className="newGame-input-cnt">
                     <div className='newGame-input-desc'>Enter the Game Name</div>
-                    <div ><input className='newGame-input' type="text" onChange={(e)=> setGameName(e.target.value)}/></div>
+                    <div ><input className='newGame-input' type="text" onChange={(e)=> setGameName(e.target.value)} required/></div>
                 </div>
                 <div className='gameMode-cnt'>
                     <div className='gameMode-header'>Game Mode</div>

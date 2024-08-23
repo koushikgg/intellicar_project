@@ -18,6 +18,10 @@ function GameBoard() {
         const boardData = (localStorage.getItem('boardName')) || '';
         return boardData;
     })
+    const [boardMoves, setBoardMoves] = useState(() => {
+        const boardData = (localStorage.getItem('boardMoves')) || '';
+        return boardData;
+    })
     const [wrongMoves, setWrongMoves] = useState(false)
     const cells = [];
     let countMoves = 0
@@ -36,6 +40,15 @@ function GameBoard() {
         return () => clearInterval(intervalId);
     }, []);
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            const updatedCellsMoves = JSON.parse(localStorage.getItem('boardMoves')) || [];
+            setBoardMoves(updatedCellsMoves);
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
     function backgroundColorChange(i, row, coloum) {
         setBgColor(i)
         setAddCellValue(i)
@@ -48,7 +61,7 @@ function GameBoard() {
             await undoApi({ boardId: localStorage.getItem('boardName') })
             const res = await getBoardApi(localStorage.getItem('boardName'))
             console.log(res);
-            
+
             setCellValues(res.data.data.board)
             // (localStorage.setItem('boardData',JSON.stringify(res.data.data.board)))
             const count = undoCount + 1
@@ -69,7 +82,6 @@ function GameBoard() {
             </div>
         )
     }
-
 
 
     async function addTheValue(i) {
@@ -149,17 +161,8 @@ function GameBoard() {
         setWrongMoves(false)
         setBgColor(null)
     }
-<div className="gameOver-inner-main-cnt">
-                        <div className="gameOver-header">
-                            Game Alert
-                        </div>
-                        <div className="gameOver-input-cnt">
-                            <div className='gameOver-input-desc'>You have made Wrong Move</div>
-                        </div>
+    console.log(boardMoves);
 
-                        <div className='gameOver-header'><button className='gameOver-header-btn' onClick={() => handleClose()} >Close</button></div>
-
-                    </div>
     return (
         <>
             {wrongMoves || countMoves === 81 ?
@@ -205,8 +208,17 @@ function GameBoard() {
                     </div>
                 </div>
                 <div className='gameboard-history-display-main-cnt'>
-
+                    {boardMoves.map((move, index) => {
+                        return (
+                            <div key={index} className='gameboard-history-display-cnt'>
+                                <p>Name: {move.username}</p>
+                                <p>Place: {`${move.i},${move.j}`}</p>
+                                <p>Value: {move.value}</p>
+                            </div>
+                        );
+                    })}
                 </div>
+
             </center>
         </>
     );

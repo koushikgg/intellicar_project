@@ -110,6 +110,17 @@ center{
     // background-color: white;
     top: 5px;
     right: 0px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+}
+
+.gameboard-history-display-cnt{
+    width: 85%;
+    height: 60px;
+    border-radius: 10px;
+    color: black;
+    background-color: white;
 }
 
 .gamewon-header-btn{
