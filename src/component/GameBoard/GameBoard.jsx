@@ -46,11 +46,6 @@ function GameBoard() {
 
     async function handleUndo() {
         try {
-            let i=1
-            // while(i<5){
-            //     console.log('undo');
-            //     i++
-            // }
             await undoApi({ boardId: localStorage.getItem('boardName') })
             const res = await getBoardApi(localStorage.getItem('boardName'))
             setCellValues(res.data.data.board)
