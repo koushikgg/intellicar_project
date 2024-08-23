@@ -6,7 +6,6 @@ function NewGame() {
     const [gameMode,setGameMode] = useState("")
     const [gameName,setGameName] = useState("")
     const navigate = useNavigate()
-
     async function handleCreate(){
         try {
             const res = await createNewGameApi({boardId:gameName,level:gameMode})
@@ -14,6 +13,7 @@ function NewGame() {
             localStorage.setItem("boardData", JSON.stringify(res.data.data.board.board))
             localStorage.setItem('boardName', gameName)
             navigate('/dashboard/gameboard')
+            localStorage.setItem('newBoard',gameName)
             
         } catch (error) {
             console.log(error.response.data);

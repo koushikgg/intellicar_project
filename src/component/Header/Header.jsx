@@ -29,13 +29,12 @@ export default function Header() {
 
     useEffect(() => {
         if (!validname) return;
-
+        
         const fetchBoardDetails = async () => {
             try {
-                const res = await getBoardApi(validname);
+                const res = await getBoardApi(localStorage.getItem('newBoard',));
                 localStorage.setItem("boardData", JSON.stringify(res.data.data.board));
                 localStorage.setItem('boardName', validname);
-                navigate('/dashboard/gameboard'); 
             } catch (error) {
                 console.error("Error fetching board details:", error);
             }
@@ -50,6 +49,8 @@ export default function Header() {
 
     function handleGameClick(name) {
         setValidname(name); 
+        navigate('/dashboard/gameboard'); 
+        localStorage.setItem('newBoard',name)
     }
 
     function handleLogout() {
