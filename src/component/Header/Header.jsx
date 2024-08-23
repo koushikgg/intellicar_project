@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { getBoardApi, getGamesApi } from '../../service/GameServices';
 import './Header.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getUserInfoApi } from '../../service/userService';
 
 export default function Header() {
     const navigate = useNavigate();
     const [gamesList, setGamesList] = useState([])
+    const [validname, setValidname] = useState("");
     const [user, setUser] = useState({})
 
 
@@ -28,26 +29,50 @@ export default function Header() {
         fetchGames();
     }, []);
 
+    useEffect(() => {
+        if (!validname) return;
+
+        const fetchBoardDetails = async () => {
+            try {
+                const res = await getBoardApi(validname);
+                localStorage.setItem("boardData", JSON.stringify(res.data.data.board));
+                localStorage.setItem('boardName', validname);
+                console.log(res);
+                
+                console.log("Updated board data in local storage for game:", validname);
+            } catch (error) {
+                console.error("Error fetching board details:", error);
+            }
+        };
+
+        fetchBoardDetails();
+
+        const intervalId = setInterval(fetchBoardDetails, 1000);
+
+        return () => clearInterval(intervalId);
+    }, [validname]);
+
     async function getBoardDetails(name) {
-        try {            
-            const res = await getBoardApi(name );
+        setValidname(name)
+        localStorage.setItem('boardName', name);
 
-            localStorage.setItem("boardData", JSON.stringify(res.data.data.board))
-            localStorage.setItem('boardName', name)
-            navigate('/dashboard/gameboard')
-            window.location.reload();
+        // try {            
+        //     const res = await getBoardApi(name );
 
-        } catch (error) {
-            console.log(error);
+        //     localStorage.setItem("boardData", JSON.stringify(res.data.data.board))
+        //     localStorage.setItem('boardName', name)
+        //     navigate('/dashboard/gameboard')
+        //     window.location.reload();
 
-        }
+        // } catch (error) {
+        //     console.log(error);
+
+        // }
     }
 
     function handleLogout() {
         console.log('logout');
-        localStorage.removeItem('token');
-        localStorage.removeItem("boardData")
-        localStorage.removeItem('boardName')
+        localStorage.clear()
         navigate('/');
     }
 
@@ -77,18 +102,20 @@ export default function Header() {
             <div className="dropdown">
                 <button className="dropdown-btn">Joingame</button>
                 <div className="dropdown-content">
-                    {gamesList.map((game, index) => (
-                        <span onClick={() => getBoardDetails(game)} key={index}>{game}</span>
-                    ))}
+                    <Link to="/dashboard/gameboard">
+                        {gamesList.map((game, index) => (
+                            <span onClick={() => getBoardDetails(game)} key={index}>{game}</span>
+                        ))}
+                    </Link>
                 </div>
             </div>
 
             <div className="dropdown2">
                 <button className="header-btn3">
-                    <p>{(user?.username)?user?.username[0]:'P'}</p>
+                    <p>{(user?.username) ? user?.username[0] : 'P'}</p>
                 </button>
                 <div className="dropdown-content2">
-                    <span>User: {(user?.username)?user?.username:'User Name'}</span>
+                    <span>User: {(user?.username) ? user?.username : 'User Name'}</span>
                     <span onClick={handleLogout}>Logout</span>
                 </div>
             </div>

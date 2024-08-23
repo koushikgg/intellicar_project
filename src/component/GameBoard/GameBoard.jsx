@@ -16,6 +16,8 @@ function GameBoard() {
     });
     const [boardName, setBoardName] = useState(() => {
         const boardData = (localStorage.getItem('boardName')) || '';
+        console.log(boardData);
+        
         return boardData;
     })
     const [wrongMoves, setWrongMoves] = useState(false)
@@ -25,6 +27,15 @@ function GameBoard() {
     useEffect(() => {
         localStorage.setItem('boardData', JSON.stringify(cellValues));
     }, [cellValues], [wrongMoves]);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            const updatedCellsData = JSON.parse(localStorage.getItem('boardData')) || [];
+            setCellValues(updatedCellsData);
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     function backgroundColorChange(i, row, coloum) {
         setBgColor(i)
@@ -40,8 +51,8 @@ function GameBoard() {
             //     console.log('undo');
             //     i++
             // }
-            await undoApi({ boardId: boardName })
-            const res = await getBoardApi(boardName)
+            await undoApi({ boardId: localStorage.getItem('boardName') })
+            const res = await getBoardApi(localStorage.getItem('boardName'))
             setCellValues(res.data.data.board)
             console.log(res.data.data.board);
             
@@ -65,11 +76,15 @@ function GameBoard() {
         )
     }
 
+    
+
     async function addTheValue(i) {
         if (addCellValue !== null && bgColor !== null) {
             try {
                 if (cellValues[row][coloum] === 0) {
-                    const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i });
+                    console.log({ boardId: localStorage.getItem('boardName'), row: row, coloum: coloum, value: i });
+                    
+                    const res = await updateMoveApi({ boardId: localStorage.getItem('boardName'), row: row, coloum: coloum, value: i });
                     console.log(res?.data?.message);
                     const updatedCellValues = cellValues.map(row => [...row]);
                     updatedCellValues[row][coloum] = i;
