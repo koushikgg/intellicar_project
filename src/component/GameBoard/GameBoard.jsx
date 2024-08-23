@@ -3,39 +3,49 @@ import './GameBoard.scss';
 import { updateMoveApi } from '../../service/GameServices';
 
 function GameBoard() {
-    const [bgColor, setBgColor] = useState(null)
-    const [addCellValue, setAddCellValue] = useState(null)
-    const [row, setRow] = useState(null)
-    const [coloum, setColoum] = useState(null)
+    const [bgColor, setBgColor] = useState(null);
+    const [addCellValue, setAddCellValue] = useState(null);
+    const [row, setRow] = useState(null);
+    const [coloum, setColoum] = useState(null);
     const [cellValues, setCellValues] = useState(() => {
         const cellsData = JSON.parse(localStorage.getItem('boardData')) || [];
         return cellsData;
     });
     const [boardName, setBoardName] = useState(() => {
-        const boardData = (localStorage.getItem('boardName')) || '';
+        const boardData = localStorage.getItem('boardName') || '';
         return boardData;
-    })
+    });
+
     const cells = [];
 
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            const updatedCellsData = JSON.parse(localStorage.getItem('boardData')) || [];
+            setCellValues(updatedCellsData);
+        }, 2000);
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('boardData', JSON.stringify(cellValues));
     }, [cellValues]);
 
     function backgroundColorChange(i, row, coloum) {
-        setBgColor(i)
-        setAddCellValue(i)
-        setRow(row)
-        setColoum(coloum)
+        setBgColor(i);
+        setAddCellValue(i);
+        setRow(row);
+        setColoum(coloum);
     }
 
-    const number = []
+    const number = [];
     for (let i = 1; i <= 9; i++) {
         number.push(
-            <div className='gameboard-number-inp' onClick={() => addTheValue(i)}>
+            <div className='gameboard-number-inp' onClick={() => addTheValue(i)} key={i}>
                 <p>{i}</p>
             </div>
-        )
+        );
     }
 
     async function addTheValue(i) {
@@ -45,9 +55,8 @@ function GameBoard() {
                     const updatedCellValues = cellValues.map(row => [...row]);
                     updatedCellValues[row][coloum] = i;
                     setCellValues(updatedCellValues);
-                    // console.log({ boardId: boardName, row: parseInt(row), coloum: parseInt(coloum), value: i });
-
-                    // const res = await updateMoveApi({ boardId: boardName, row: row, coloum: coloum, value: i });
+                    // You can uncomment and use the following line when integrating the API call
+                    // const res = await updateMoveApi({ boardId: boardName, row, coloum, value: i });
                     // console.log(res);
                 }
             } catch (error) {
@@ -56,25 +65,24 @@ function GameBoard() {
         }
     }
 
-
     for (let i = 0; i <= 90; i++) {
         if (i > 0) {
             if (`${i}`.includes(9)) continue;
         }
 
-        let row = null
-        let col = null
+        let row = null;
+        let col = null;
         let assignValue = null;
         let className = 'gameboard-cell-cnt';
         if (cellValues) {
             if (`${i}`.length < 2) {
                 row = 0;
-                col = i
-                assignValue = cellValues[row][col]
+                col = i;
+                assignValue = cellValues[row][col];
             } else {
-                row = parseInt(`${i}`[0])
-                col = parseInt(`${i}`[1])
-                assignValue = cellValues[row][col]
+                row = parseInt(`${i}`[0]);
+                col = parseInt(`${i}`[1]);
+                assignValue = cellValues[row][col];
             }
         }
 
@@ -88,8 +96,6 @@ function GameBoard() {
             className += ' backgroundColorChange';
         }
 
-
-
         if (assignValue) {
             className += ' valuebackgroundColorChange';
         }
@@ -100,6 +106,7 @@ function GameBoard() {
             </div>
         );
     }
+
     return (
         <div className="gameboard-main-cnt">
             <div className="gameboard-table-main-cnt">

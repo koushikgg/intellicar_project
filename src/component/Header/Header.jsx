@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getBoardApi, getGamesApi } from '../../service/GameServices';
 import './Header.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const navigate = useNavigate();
-    const [gamesList, setGamesList] = useState([])
-
+    const [gamesList, setGamesList] = useState([]);
+    const [validname, setValidname] = useState(""); 
 
     useEffect(() => {
         async function fetchGames() {
@@ -21,25 +21,37 @@ export default function Header() {
         fetchGames();
     }, []);
 
+    useEffect(() => {
+        if (!validname) return; 
+
+        const fetchBoardDetails = async () => {
+            try {
+                const res = await getBoardApi(validname);
+                localStorage.setItem("boardData", JSON.stringify(res.data.data.board));
+                localStorage.setItem('boardName', validname);
+                console.log("Updated board data in local storage for game:", validname);
+            } catch (error) {
+                console.error("Error fetching board details:", error);
+            }
+        };
+
+        fetchBoardDetails(); 
+
+        const intervalId = setInterval(fetchBoardDetails, 2000);
+
+        return () => clearInterval(intervalId); 
+    }, [validname]); 
+
     async function getBoardDetails(name) {
-        try {            
-            const res = await getBoardApi(name );
-
-            localStorage.setItem("boardData", JSON.stringify(res.data.data.board))
-            localStorage.setItem('boardName', name)
-            navigate('/dashboard/gameboard')
-
-        } catch (error) {
-            console.log(error);
-
-        }
+        setValidname(name); 
+        // navigate('/dashboard/gameboard');
     }
 
     function handleLogout() {
         console.log('logout');
         localStorage.removeItem('token');
-        localStorage.removeItem("boardData")
-        localStorage.removeItem('boardName')
+        localStorage.removeItem("boardData");
+        localStorage.removeItem('boardName');
         navigate('/');
     }
 
@@ -52,13 +64,15 @@ export default function Header() {
                 Newgame
             </div>
 
-
             <div className="dropdown">
                 <button className="dropdown-btn">Joingame</button>
                 <div className="dropdown-content">
+
+                    <Link to="/dashboard/gameboard">
                     {gamesList.map((game, index) => (
                         <span onClick={() => getBoardDetails(game)} key={index}>{game}</span>
                     ))}
+                    </Link>
                 </div>
             </div>
 
