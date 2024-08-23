@@ -23,8 +23,9 @@ export default function Header() {
                 console.error("Error fetching games:", error);
             }
         }
-
-        fetchGames();
+        const intervalId = setInterval(fetchGames,2000)
+        return () =>clearInterval(intervalId)
+        
     }, []);
 
     useEffect(() => {
@@ -80,7 +81,7 @@ export default function Header() {
             <div className="dropdown">
                 <button className="dropdown-btn">Joingame</button>
                 <div className="dropdown-content">
-                    {gamesList.map((game, index) => (
+                    {gamesList?.map((game, index) => (
                         <span onClick={() => handleGameClick(game)} key={index}>{game}</span>
                     ))}
                 </div>
@@ -91,7 +92,7 @@ export default function Header() {
                     <p>{(user?.username) ? user?.username[0] : 'P'}</p>
                 </button>
                 <div className="dropdown-content2">
-                    <span>User: {(user?.username) ? user?.username : 'User Name'}</span>
+                    <span> {(user?.username) ? `User: ${user?.username }`: 'Please Login'}</span>
                     <span onClick={handleLogout}>Logout</span>
                 </div>
             </div>
