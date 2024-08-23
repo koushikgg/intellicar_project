@@ -16,8 +16,6 @@ function GameBoard() {
     });
     const [boardName, setBoardName] = useState(() => {
         const boardData = (localStorage.getItem('boardName')) || '';
-        console.log(boardData);
-        
         return boardData;
     })
     const [wrongMoves, setWrongMoves] = useState(false)
@@ -48,9 +46,7 @@ function GameBoard() {
         try {
             await undoApi({ boardId: localStorage.getItem('boardName') })
             const res = await getBoardApi(localStorage.getItem('boardName'))
-            setCellValues(res.data.data.board)
-            console.log(res.data.data.board);
-            
+            setCellValues(res.data.data.board)            
             // (localStorage.setItem('boardData',JSON.stringify(res.data.data.board)))
             const count = undoCount + 1
             setUndoCount(count)
@@ -80,11 +76,10 @@ function GameBoard() {
                     console.log({ boardId: localStorage.getItem('boardName'), row: row, coloum: coloum, value: i });
                     
                     const res = await updateMoveApi({ boardId: localStorage.getItem('boardName'), row: row, coloum: coloum, value: i });
-                    console.log(res?.data?.message);
+                    setBgColor(null)
                     const updatedCellValues = cellValues.map(row => [...row]);
                     updatedCellValues[row][coloum] = i;
                     setCellValues(updatedCellValues);
-                    console.log({ boardId: boardName, row: parseInt(row), coloum: parseInt(coloum), value: i });
                 }
 
             } catch (error) {
@@ -124,14 +119,9 @@ function GameBoard() {
         if ((`${i}`.endsWith('2')) || (`${i}`.endsWith('5'))) {
             className += ' cell-border-right';
         }
-        if (i === bgColor) {
+        if (i === bgColor ) {
             className += ' backgroundColorChange';
         }
-        // const findWrongOne = wrongMoves.find(move => move == i)
-
-        // if (findWrongOne) {
-        //     className += ' cell-txt-color'
-        // }
 
         if (assignValue) {
             className += ' valuebackgroundColorChange';

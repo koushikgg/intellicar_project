@@ -6,21 +6,19 @@ import { getUserInfoApi } from '../../service/userService';
 
 export default function Header() {
     const navigate = useNavigate();
-    const [gamesList, setGamesList] = useState([])
-    const [validname, setValidname] = useState("");
-    const [user, setUser] = useState({})
-
+    const [gamesList, setGamesList] = useState([]);
+    const [validname, setValidname] = useState('');
+    const [user, setUser] = useState({});
 
     useEffect(() => {
-        getUserDetails()
-    }, [])
-
+        getUserDetails();
+    }, []);
 
     useEffect(() => {
         async function fetchGames() {
             try {
                 const res = await getGamesApi();
-                setGamesList(res?.data?.data);
+                setGamesList(res?.data?.data || []);
             } catch (error) {
                 console.error("Error fetching games:", error);
             }
@@ -37,58 +35,38 @@ export default function Header() {
                 const res = await getBoardApi(validname);
                 localStorage.setItem("boardData", JSON.stringify(res.data.data.board));
                 localStorage.setItem('boardName', validname);
-                console.log(res);
-                
-                console.log("Updated board data in local storage for game:", validname);
+                navigate('/dashboard/gameboard'); 
             } catch (error) {
                 console.error("Error fetching board details:", error);
             }
         };
 
         fetchBoardDetails();
-
         const intervalId = setInterval(fetchBoardDetails, 1000);
 
         return () => clearInterval(intervalId);
-    }, [validname]);
 
-    async function getBoardDetails(name) {
-        setValidname(name)
-        localStorage.setItem('boardName', name);
+    }, [validname, navigate]);
 
-        // try {            
-        //     const res = await getBoardApi(name );
-
-        //     localStorage.setItem("boardData", JSON.stringify(res.data.data.board))
-        //     localStorage.setItem('boardName', name)
-        //     navigate('/dashboard/gameboard')
-        //     window.location.reload();
-
-        // } catch (error) {
-        //     console.log(error);
-
-        // }
+    function handleGameClick(name) {
+        setValidname(name); 
     }
 
     function handleLogout() {
-        console.log('logout');
-        localStorage.clear()
+        localStorage.clear();
         navigate('/');
     }
-
 
     async function getUserDetails() {
         try {
             const res = await getUserInfoApi();
-            console.log(res.data.data);
-            setUser(res.data.data)
-
+            setUser(res.data.data);
         } catch (error) {
-            console.log(error);
-            alert(error.response.data.error)
+            console.error(error);
+            alert(error.response?.data?.error || 'An error occurred');
         }
-
     }
+
     return (
         <div className="header-container">
             <div className="header-btn1" onClick={() => navigate("/dashboard")}>
@@ -98,15 +76,12 @@ export default function Header() {
                 Newgame
             </div>
 
-
             <div className="dropdown">
                 <button className="dropdown-btn">Joingame</button>
                 <div className="dropdown-content">
-                    <Link to="/dashboard/gameboard">
-                        {gamesList.map((game, index) => (
-                            <span onClick={() => getBoardDetails(game)} key={index}>{game}</span>
-                        ))}
-                    </Link>
+                    {gamesList.map((game, index) => (
+                        <span onClick={() => handleGameClick(game)} key={index}>{game}</span>
+                    ))}
                 </div>
             </div>
 
