@@ -17,7 +17,7 @@ center{
 }
 
 .gameboard-table-main-cnt {
-    width: 499px;
+    width: 498px;
     height: 500px;
     margin-top: 100px;
     display: flex;
@@ -121,6 +121,7 @@ center{
     border-radius: 10px;
     color: black;
     background-color: white;
+
 }
 
 .gamewon-header-btn{
@@ -130,6 +131,7 @@ center{
 .gamewon-inner-main-cnt {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     background-color: white;
     height: 236px;
     width: 350px;
